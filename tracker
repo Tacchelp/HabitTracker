@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# Récupère le dossier où se trouve ce script (le dossier Tracker/)
+# Trouve le dossier du projet
 PROJECT_DIR="$(dirname "$(realpath "$0")")"
 
-# Exécute Java en transmettant tous les arguments passés au script ("$@")
-java -cp "$PROJECT_DIR/lib/*:$PROJECT_DIR/bin" tracker.cli.Main "$@"
+# Se déplace dans le dossier du projet pour que data.json s'y enregistre
+cd "$PROJECT_DIR" || exit
+
+# Exécute Java (plus besoin de répéter $PROJECT_DIR car on y est déjà !)
+java -cp "lib/*:bin" tracker.cli.Main "$@"

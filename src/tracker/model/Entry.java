@@ -2,12 +2,19 @@ package tracker.model;
 
 import java.time.LocalDate;
 
-public class Entry {
-    private  LocalDate date;
-    private  Habit     habit;
-    private  double    value;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public Entry(Habit h, LocalDate date, double value){
+public class Entry {
+    private  final LocalDate date;
+    private  final Habit     habit;
+    private  final double    value;
+
+    @JsonCreator 
+    public Entry(@JsonProperty("Habit") Habit h,
+                 @JsonProperty("date")  LocalDate date,
+                 @JsonProperty("value") double value)
+    {
         this.habit = h;
         this.date = date;
         this.value = value;
@@ -23,15 +30,6 @@ public class Entry {
         return this.habit.equals(h);
     }
 
-    public Entry(){
-        this.habit = null;
-        this.date  = null;
-        this.value = 0;
-    }
-
-    public Habit getHabit()                  { return this.habit; }
-    public void  setDate (LocalDate  date )  { this.date     = date ; }
-    public void  setValue(double     value)  { this.value    = value; }
-    public void  setHabit(Habit      habit)  { this.habit    = habit; }
+    public Habit getHabit(){ return this.habit; }
 
 }

@@ -61,7 +61,7 @@ public class Main {
             System.out.println("Usage : add <id> <nom> <objectif>");
             return;
         }
-        Habit h = new Habit(nom, objectif, id);
+        Habit h = new Habit(nom, objectif, id, LocalDate.now());
         repo.saveHabit(h);
         System.out.println(h + "\n ajouté avec succès !");
     }
@@ -117,6 +117,7 @@ public class Main {
 
         double weekRate = stats.getRateBetween(h, aWeekAgo, today);
         double mounthRate = stats.getRateBetween(h, aMonthAgo, today);
+        double everRate  = stats.getRateBetween(h, h.getBeginDate(), today);
         boolean accomplishedToday = stats.isAccomplished(h, today);
 
         System.out.println("========================");
@@ -126,6 +127,7 @@ public class Main {
         System.out.println("- Serie actuelle       : " + streak + " jours consécutifs.");
         System.out.printf("- Taux de réussite (7j)  : %.1f%%%n", weekRate);
         System.out.printf("- Taux de réussite (30j) : %.1f%%%n", mounthRate);
+        System.out.printf("- Taux de réussite (ever): %.1f%%%n*", everRate);
 
 
 
