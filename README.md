@@ -26,6 +26,7 @@ chmod +x tracker
  add <id> <nom> <objectif>  : Créer une habitude
  log <id> <valeur>          : Enregistre une activité pour la journée.
  stats <id>                 : Calculer la série et le taux de complétion
+ getLogs <date>             : Affiche toutes les entrées du jour donné
 
 
 

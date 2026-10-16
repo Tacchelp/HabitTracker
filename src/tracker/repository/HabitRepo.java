@@ -1,5 +1,6 @@
 package tracker.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import tracker.model.*;
 
@@ -11,4 +12,5 @@ public interface HabitRepo {
     List<Habit> getAllHabits();
     void saveLog(Entry log);
     List<Entry> getLogsForHabit(String habitId);
+    List<Entry> getEntryByDate(LocalDate date);
 }

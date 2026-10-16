@@ -1,5 +1,6 @@
 package tracker.repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,15 @@ public class InMemoryHabitRepository implements HabitRepo{
     public List<Habit> getAllHabits(){
         List<Habit> l = new ArrayList<>();
         for(String id : this.map.keySet()) l.add(map.get(id));
+        return l;
+    }
+
+    @Override 
+    public List<Entry> getEntryByDate(LocalDate date){
+        List<Entry> l = new ArrayList<>();
+        for(Habit h : this.getAllHabits()){
+            for(Entry e : this.getLogsForHabit(h.getId())) if (e.getDate().equals(date)) l.add(e);
+        }
         return l;
     }
 

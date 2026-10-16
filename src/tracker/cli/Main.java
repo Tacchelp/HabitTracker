@@ -2,6 +2,8 @@ package tracker.cli;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 
 import tracker.model.Entry;
 import tracker.model.Habit;
@@ -34,6 +36,9 @@ public class Main {
                 break;
             case "stats":
                 printStats(repo, stats, args);
+                break;
+            case "getlogs":
+                printLogs(repo, args);
                 break;
             case "help":
                 printHelp();
@@ -88,7 +93,11 @@ public class Main {
             System.out.println(" list");
             return;
         }
-        Entry e = new Entry(repo.findHabitById(id), LocalDate.now(), value);
+        String note = "";
+        int indexNote = Arrays.asList(args).indexOf("--note");
+        if (indexNote != -1 && args.length > indexNote + 1 ){ note = args[indexNote + 1];}
+
+        Entry e = new Entry(repo.findHabitById(id), LocalDate.now(), value, note);
         repo.saveLog(e);
 
     }
@@ -133,13 +142,37 @@ public class Main {
 
     }
 
+    private static void printLogs(HabitRepo repo, String[] args){
+        if (args.length < 2){ 
+            System.out.println("Usage : getLogs <date>");
+            return;
+        }
+        
+        LocalDate date;
+        try { date = LocalDate.parse(args[1]);
+        } catch (DateTimeParseException _){
+            if (args[1].equalsIgnoreCase("today")){
+                date = LocalDate.now();
+            }
+            else{
+                System.out.println("Date invalide.");
+                return;
+            }
+        }
+
+        for(Entry e : repo.getEntryByDate(date)) System.out.println(e);
+        return;
+
+    }
+
 
     private static void printHelp(){
         System.out.println("==========  Commandes disponibles ==========");
-        System.out.println(" list                       : Affiche toutes les habitudes");
-        System.out.println(" add <id> <nom> <objectif>  : Créer une habitude");
+        System.out.println(" list                       : Affiche toutes les habitudes.");
+        System.out.println(" add <id> <nom> <objectif>  : Créer une habitude.");
         System.out.println(" log <id> <valeur>          : Enregistre une activité pour la journée.");
-        System.out.println(" stats <id>                 : Calculer la série et le taux de complétion");
+        System.out.println(" stats <id>                 : Calculer la série et le taux de complétion.");
+        System.out.println(" getLogs <date>             : Affiche toutes les entrées du jour donné.");
     }
 
 }

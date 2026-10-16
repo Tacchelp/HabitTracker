@@ -7,6 +7,7 @@ import tracker.model.Habit;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +102,15 @@ public class JsonHabitRepository implements HabitRepo {
         public List<Entry> entries = new ArrayList<>();
 
         public TrackerData() {}
+    }
+
+    @Override 
+    public List<Entry> getEntryByDate(LocalDate date){
+        List<Entry> l = new ArrayList<>();
+        for(Habit h : this.getAllHabits()){
+            for(Entry e : this.getLogsForHabit(h.getId())) if (e.getDate().equals(date)) l.add(e);
+        }
+        return l;
     }
 
 }
